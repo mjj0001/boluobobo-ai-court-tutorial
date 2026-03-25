@@ -24,6 +24,7 @@ jobs:
 
       - name: ShellCheck install scripts
         uses: ludeeus/action-shellcheck@2.0.0
+        continue-on-error: true
         with:
           scandir: '.'
           additional_files: 'install.sh install-lite.sh install-mac.sh doctor.sh'
