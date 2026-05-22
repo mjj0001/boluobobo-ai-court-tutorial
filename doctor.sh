@@ -99,12 +99,15 @@ fi
 
 NODE_VER=$(node -v 2>/dev/null || echo "none")
 NODE_MAJOR=$(echo "$NODE_VER" | sed "s/v\([0-9]*\).*/\1/")
-if [ "${NODE_MAJOR:-0}" -ge 22 ] 2>/dev/null; then
+NODE_MINOR=$(echo "$NODE_VER" | sed "s/v[0-9]*\.\([0-9]*\).*/\1/")
+if [ "${NODE_MAJOR:-0}" -gt 22 ] 2>/dev/null; then
+    pass "Node.js $NODE_VER"
+elif [ "${NODE_MAJOR:-0}" -eq 22 ] && [ "${NODE_MINOR:-0}" -ge 19 ] 2>/dev/null; then
     pass "Node.js $NODE_VER"
 elif [[ "$NODE_VER" == "none" ]]; then
     fail "Node.js 未安装"
 else
-    warn "Node.js $NODE_VER — 推荐 v22+"
+    warn "Node.js $NODE_VER — OpenClaw v2026.5.19+ 要求 >= 22.19"
 fi
 
 # ---- [2/9] 检测配置文件 ----

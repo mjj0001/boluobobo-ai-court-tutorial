@@ -193,8 +193,8 @@ echo "DISCORD_APPLICATION_ID=YOUR_APP_ID" >> ~/.hermes/.env
 hermes gateway restart
 ```
 
-OpenClaw v2026.5.x 起、Hermes v0.13.x 起,Discord slash 命令注册都要
-`applicationId`。danghuangshang `openclaw.example.json` 已对齐补全。
+OpenClaw v2026.5.x(已测到 v2026.5.20)起、Hermes v0.13.x 起,Discord slash
+命令注册都要 `applicationId`。danghuangshang `openclaw.example.json` 已对齐补全。
 
 ### 问题 3:模型 401 / 空回复
 

@@ -1,6 +1,6 @@
 {
   "name": "clawd",
-  "version": "3.6.0",
+  "version": "3.7.1",
   "description": "AI 朝廷 - 多 Agent 协作框架",
   "main": "index.js",
   "scripts": {
@@ -35,7 +35,7 @@
     "jest": "^30.3.0"
   },
   "engines": {
-    "node": ">=22.16.0"
+    "node": ">=22.19.0"
   },
   "repository": {
     "type": "git",

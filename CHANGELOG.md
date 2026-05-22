@@ -1,5 +1,23 @@
 # 📜 Changelog
 
+## v3.7.1 (2026-05-22)
+
+### OpenClaw 适配 v2026.5.20
+
+无破坏性变更,本次升级聚焦运行时门槛和新增可选字段。
+
+- **Node.js 最低版本 22.16 → 22.19** — 对齐上游 v2026.5.19 强制要求
+  - `install.ps1` — 版本探测改为同时校验 major+minor,Windows 安装器下载从 v22.14.0 升级到 v22.19.0
+  - `install-mac.sh` — Node 检测加入 minor 校验(>= 22.19),不达标自动 `brew install node@22` 升级
+  - `doctor.sh` — `[1/9]` 检查接受 `>= 22.19`,过低改为 warn 提示
+  - `package.json` — `engines.node` 由 `>=22.16.0` 提升到 `>=22.19.0`
+- **文档** — `EXTERNAL_HERMES.md`、`hermes.example.yaml`、`CONTRIBUTING.md` 版本占位符同步到 2026.5.20
+- **`docs/openclaw-upgrade-guide.md`** — 末尾新增 "升级到 2026.5.20" 一节,列出 v2026.5.8 ~ v2026.5.20 的新可选字段(`agents.list[].experimental.localModelLean`、`voice.realtime.bootstrapContextFiles`、`models.providers.<id>.timeoutSeconds`、`security.audit.suppressions`、Discord `agentComponents.ttlMs`、`tools.alsoAllow`)和 Docker 构建参数改名(`OPENCLAW_DOCKER_APT_PACKAGES` → `OPENCLAW_IMAGE_APT_PACKAGES`,新增 `OPENCLAW_IMAGE_PIP_PACKAGES`)
+
+> **现有用户**:已 work 的 `openclaw.json` 无需改动,只需把 Node 升到 22.19。
+
+---
+
 ## v3.7.0 (2026-05-10)
 
 ### 新功能 — 双 Agent Runtime 并行

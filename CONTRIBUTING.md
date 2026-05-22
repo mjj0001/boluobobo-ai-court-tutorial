@@ -66,7 +66,7 @@
 
 ### 环境信息
 - OS: [如 Ubuntu 22.04]
-- OpenClaw 版本: [如 2026.3.13]
+- OpenClaw 版本: [如 2026.5.20]
 - 安装方式: [如 install-lite.sh]
 
 ### 截图

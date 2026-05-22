@@ -258,11 +258,59 @@ openclaw gateway --verbose
 
 | OpenClaw 版本 | 配置格式 | 状态 |
 |--------------|---------|------|
-| 2026.3.13 | v2 | ✅ 当前版本 |
-| 2026.2.x | v1 | ⚠️ 需要升级 |
-| 2025.x | v0 | ❌ 不兼容 |
+| 2026.5.20 | v2 | ✅ 当前推荐 |
+| 2026.5.7  | v2 | ✅ 兼容(建议升级) |
+| 2026.3.13 | v2 | ✅ 兼容 |
+| 2026.2.x  | v1 | ⚠️ 需要升级 |
+| 2025.x    | v0 | ❌ 不兼容 |
 
 ---
 
-**最后更新**：2026-03-22  
-**适用版本**：OpenClaw 2026.3.13
+## 🆕 升级到 2026.5.20
+
+> 从 v2026.5.7 直接升级到 v2026.5.20 **无破坏性变更**,现有 `openclaw.json` 可直接使用。
+> 仅需把 Node.js 升到 22.19+。
+
+### 1. 运行时门槛
+
+- **Node.js 最低版本提升到 22.19**(v2026.5.19 强制)
+  - macOS:`brew install node@22 && brew link --overwrite node@22`
+  - Linux:`nvm install 22.19` 或 `n 22.19`
+  - Windows:下载 `https://nodejs.org/dist/v22.19.0/node-v22.19.0-x64.msi`
+  - 验证:`node -v` 应输出 `v22.19.x` 或更高
+
+### 2. 新增可选字段(均向后兼容,不加也能跑)
+
+| 字段 | 引入版本 | 用途 |
+|------|---------|------|
+| `agents.list[].experimental.localModelLean` | 2026.5.20 | 单 Agent 启用 lean local-model 模式 |
+| `voice.realtime.bootstrapContextFiles: []` | 2026.5.20 | Discord 语音会话:控制 profile context 注入 |
+| `models.providers.<id>.timeoutSeconds` | 2026.5.20 | 每 provider 的显式超时覆盖 |
+| `security.audit.suppressions` | 2026.5.17 | 显式接受的审计发现条目 |
+| `channels.discord.accounts[].agentComponents.ttlMs` | 2026.5.20 | Discord 回调注册的生命周期 |
+| `agents.list[].tools.alsoAllow` | 2026.5.17 | 单 Agent 的运行时工具白名单追加 |
+| `messages.groupChat.unmentionedInbound: "room_event"` | 2026.5.17 | 群聊中未 @ 你的消息以静默 context 形式注入 |
+| `gateway.remote.remotePort` | 2026.5.17 | Mac app 远程网关端口 |
+
+### 3. Docker 构建参数改名
+
+如果你写过自定义 Dockerfile 调用 OpenClaw 官方镜像基底:
+
+| 旧参数(legacy fallback) | 新参数 |
+|------------------------|--------|
+| `OPENCLAW_DOCKER_APT_PACKAGES` | `OPENCLAW_IMAGE_APT_PACKAGES` |
+| —(无) | `OPENCLAW_IMAGE_PIP_PACKAGES` |
+
+本项目自带的 `Dockerfile` 用 `apk add` 直装,**不受此改名影响**。
+
+### 4. 其他更新
+
+- xAI 支持 device-code OAuth(免 `XAI_API_KEY`,适合 headless 环境)
+- OpenRouter 现在尊重 provider 层 routing 策略
+- Codex 插件 CLI:`/codex plugins list | enable | disable`
+- 内置 Policy 插件用于频道合规检查
+
+---
+
+**最后更新**:2026-05-22
+**适用版本**:OpenClaw 2026.3.13 ~ 2026.5.20

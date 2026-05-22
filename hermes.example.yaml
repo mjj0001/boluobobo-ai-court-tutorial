@@ -12,7 +12,7 @@
 #   ~/.hermes/personalities/*.md   (司礼监、内阁等角色提示词)
 #   ~/.hermes/context/AGENTS.md    (整个朝廷的全局 system prompt)
 #
-# 版本对齐: Hermes Agent v0.13.0 (v2026.5.7) 起的 schema。
+# 版本对齐: Hermes Agent v0.13.x (OpenClaw v2026.5.20) 起的 schema。
 # 官方完整字段: https://hermes-agent.nousresearch.com/docs/user-guide/configuration
 # =============================================================================
 

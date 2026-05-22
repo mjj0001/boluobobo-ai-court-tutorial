@@ -66,19 +66,25 @@ else
 fi
 
 # ---- 2. Node.js ----
-echo -e "${YELLOW}[2/6] 检查 Node.js...${NC}"
-if command -v node &>/dev/null; then
-    NODE_MAJOR=$(node -v | sed 's/v\([0-9]*\).*/\1/')
-    if [ "$NODE_MAJOR" -ge 22 ] 2>/dev/null; then
-        echo -e "  ${GREEN}✓ Node.js $(node -v) 已安装${NC}"
-    else
-        echo -e "  ${YELLOW}⚠ Node.js $(node -v) 版本过低，升级中...${NC}"
-        brew install node@22
-        brew link --overwrite node@22 2>/dev/null || true
-        echo -e "  ${GREEN}✓ Node.js $(node -v) 安装完成${NC}"
-    fi
+# OpenClaw v2026.5.19 起强制要求 Node.js >= 22.19
+echo -e "${YELLOW}[2/6] 检查 Node.js (需 >= 22.19)...${NC}"
+node_meets_floor() {
+    local ver major minor
+    ver=$(node -v 2>/dev/null | sed 's/^v//') || return 1
+    major=${ver%%.*}
+    minor=${ver#*.}; minor=${minor%%.*}
+    [ "${major:-0}" -gt 22 ] && return 0
+    [ "${major:-0}" -eq 22 ] && [ "${minor:-0}" -ge 19 ] && return 0
+    return 1
+}
+if command -v node &>/dev/null && node_meets_floor; then
+    echo -e "  ${GREEN}✓ Node.js $(node -v) 已满足要求${NC}"
 else
-    echo -e "  ${CYAN}→ 安装 Node.js 22...${NC}"
+    if command -v node &>/dev/null; then
+        echo -e "  ${YELLOW}⚠ Node.js $(node -v) 版本过低 (需 >= 22.19)，升级中...${NC}"
+    else
+        echo -e "  ${CYAN}→ 安装 Node.js 22...${NC}"
+    fi
     brew install node@22
     brew link --overwrite node@22 2>/dev/null || true
     echo -e "  ${GREEN}✓ Node.js $(node -v) 安装完成${NC}"

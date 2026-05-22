@@ -23,7 +23,7 @@ AI 朝廷 Windows 安装脚本
   - 网络连接
 
 安装内容:
-  - Node.js 22 LTS
+  - Node.js 22 LTS (>= 22.19, 满足 OpenClaw v2026.5.19+ 要求)
   - OpenClaw CLI
   - AI 朝廷配置文件
 
@@ -63,14 +63,16 @@ Write-Host ""
 # Node.js 检查与安装
 # ============================================
 function Test-NodeJs {
+    # OpenClaw v2026.5.19 起强制要求 Node.js >= 22.19
     try {
         $nodeVersion = node --version 2>&1
-        if ($nodeVersion -match 'v(\d+)\.') {
+        if ($nodeVersion -match 'v(\d+)\.(\d+)\.') {
             $majorVersion = [int]$matches[1]
-            if ($majorVersion -ge 22) {
+            $minorVersion = [int]$matches[2]
+            if ($majorVersion -gt 22 -or ($majorVersion -eq 22 -and $minorVersion -ge 19)) {
                 return $true
             } else {
-                Write-Warn "Node.js 版本过低：$nodeVersion (需要 v22+)"
+                Write-Warn "Node.js 版本过低：$nodeVersion (需要 >= v22.19)"
                 return $false
             }
         }
@@ -84,9 +86,9 @@ if (Test-NodeJs) {
     Write-Success "Node.js 已安装：$(node --version)"
 } else {
     Write-Info "正在安装 Node.js 22 LTS..."
-    
-    # 下载 Node.js 22 LTS 安装器
-    $installerUrl = "https://nodejs.org/dist/v22.14.0/node-v22.14.0-x64.msi"
+
+    # 下载 Node.js 22 LTS 安装器 (满足 OpenClaw >= 22.19 门槛)
+    $installerUrl = "https://nodejs.org/dist/v22.19.0/node-v22.19.0-x64.msi"
     $installerPath = "$env:TEMP\node-installer.msi"
     
     try {
